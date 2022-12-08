@@ -1,19 +1,5 @@
 import styled from '@emotion/styled';
-import {css} from '@emotion/react';
 import {useEffect, useState} from "react";
-
-const hoverColor = css({
-    color: "red"
-})
-
-const hoverButton = css({
-    '&hover, &focus': hoverColor
-})
-
-const Button = styled.button`
-    width: 300px;
-    height: 150px;
-`
 
 const InputBox = styled.input`
     font-size: 18px;
@@ -27,13 +13,19 @@ const InputBox = styled.input`
 
 export default function Main() {
 
-    let myInputs;
+    //myText = 변수. setMyText = myText를 갱신해주는 함수.
+    //useState는 위의 두 가지 값을 반환해줌.
+    const [myText, setMyText] = useState('Type any Word.');
 
-    const [myText, setMyText] = useState('');
+    const changeValue = (e: any) => {
+        setMyText(e.target.value);
+    }
 
+    //setMyText의 변경이 있을 때 마다 실행시킴. ->  https://ko.reactjs.org/docs/hooks-effect.html
     useEffect(() => {
         //과거 저장된 Myinput(myTypeText)를 삭제
         localStorage.removeItem('Myinput');
+
         //myTypeText를 JSON방식으로 Myinput(id)로 localStorage에 저장
         localStorage.setItem('Myinput', JSON.stringify({input: myText}));
 
@@ -44,30 +36,8 @@ export default function Main() {
 
     return (
         <div>
-            <InputBox type="text" onChange={setMyText} value={myText}/>
+            <InputBox type="text" onChange={changeValue} value={myText}/>
         </div>
     );
 
 }
-
-
-/*
-const [myTexts] = useState();
-
-const myInputText = () => {
-
-//과거 저장된 Myinput(myTypeText)를 삭제
-localStorage.removeItem('Myinput');
-
-//myTypeText를 JSON방식으로 Myinput(id)로 localStorage에 저장
-localStorage.setItem('Myinput', JSON.stringify({input: myTexts}));
-
-//로그에 함수가 작동 됨을 출력함. (편의성)
-console.log("Saved to localStorage");
-}
-return (
-<div>
-<InputBox type="text" onChange={myInputText} value={myTexts}/>
-</div>
-);
-*/
