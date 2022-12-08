@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import {css} from '@emotion/react';
 import {useEffect, useState} from "react";
 
 const hoverColor = css({
@@ -25,19 +25,49 @@ const InputBox = styled.input`
 `
 
 
-
 export default function Main() {
 
-        const [ myTexts, setmyTexts ] = useState();
-        useEffect(() => {
-            const myTexts = JSON.stringify(setmyTexts)
-            console.log(myTexts);
-        })
-  return(
-    <div>
-        <InputBox type="text" value={myTexts}/>
-              <Button onClick={myTexts}>누르면 로그나옴</Button>
+    let myInputs;
 
-          </div>
-  );
+    const [myText, setMyText] = useState('');
+
+    useEffect(() => {
+        //과거 저장된 Myinput(myTypeText)를 삭제
+        localStorage.removeItem('Myinput');
+        //myTypeText를 JSON방식으로 Myinput(id)로 localStorage에 저장
+        localStorage.setItem('Myinput', JSON.stringify({input: myText}));
+
+        //로그에 함수가 작동 됨을 출력함. (편의성)
+        console.log("Saved to localStorage");
+    });
+
+
+    return (
+        <div>
+            <InputBox type="text" onChange={setMyText} value={myText}/>
+        </div>
+    );
+
 }
+
+
+/*
+const [myTexts] = useState();
+
+const myInputText = () => {
+
+//과거 저장된 Myinput(myTypeText)를 삭제
+localStorage.removeItem('Myinput');
+
+//myTypeText를 JSON방식으로 Myinput(id)로 localStorage에 저장
+localStorage.setItem('Myinput', JSON.stringify({input: myTexts}));
+
+//로그에 함수가 작동 됨을 출력함. (편의성)
+console.log("Saved to localStorage");
+}
+return (
+<div>
+<InputBox type="text" onChange={myInputText} value={myTexts}/>
+</div>
+);
+*/
