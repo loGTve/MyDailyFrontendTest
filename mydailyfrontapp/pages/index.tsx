@@ -23,10 +23,10 @@ export default function Main() {
 
     //setMyText의 변경이 있을 때 마다 실행시킴. ->  https://ko.reactjs.org/docs/hooks-effect.html
     useEffect(() => {
-        //과거 저장된 Myinput(myTypeText)를 삭제
+        //과거 저장된 Myinput(myText)를 삭제
         localStorage.removeItem('Myinput');
 
-        //myTypeText를 JSON방식으로 Myinput(id)로 localStorage에 저장
+        //myText를 JSON방식으로 Myinput(id)로 localStorage에 저장
         localStorage.setItem('Myinput', JSON.stringify({input: myText}));
 
         //로그에 함수가 작동 됨을 출력함. (편의성)
@@ -39,5 +39,4 @@ export default function Main() {
             <InputBox type="text" onChange={changeValue} value={myText}/>
         </div>
     );
-
 }
