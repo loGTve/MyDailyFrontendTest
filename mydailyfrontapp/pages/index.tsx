@@ -1,5 +1,18 @@
 import styled from '@emotion/styled';
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef, useReducer} from 'react';
+import {Route} from 'react-router-dom';
+import {useRecoilValue} from 'recoil';
+
+import reducer from './reducer'
+
+
+//Recoil {prefatching}
+
+const Button = styled.button`
+    width: 150px;
+    height: 40px;
+    margin: 10px;
+`
 
 const InputBox = styled.input`
     font-size: 18px;
@@ -13,30 +26,44 @@ const InputBox = styled.input`
 
 export default function Main() {
 
-    //myText = 변수. setMyText = myText를 갱신해주는 함수.
-    //useState는 위의 두 가지 값을 반환해줌.
-    const [myText, setMyText] = useState('Type any Word.');
 
-    const changeValue = (e: any) => {
-        setMyText(e.target.value);
+    const [myText, setMyText] = useState('Type any Word.');
+    const [myTitle, setMyTitle] = useState('Type any Title.');
+//    const [myDiaryId, setMyDiaryId] = useState(1);
+
+    const [data, dispatch] = useReducer(reducer, []);
+
+
+    const diaryId = useRef(0);
+
+    const increaseDiaryId = () => {
+        diaryId.current += 1;
     }
 
-    //setMyText의 변경이 있을 때 마다 실행시킴. ->  https://ko.reactjs.org/docs/hooks-effect.html
+
+    const changeMyText = (e: any) => {
+        setMyText(e.target.value);
+    };
+
+    const changeMyTitle = (e) => {
+        setMyTitle(e.target.value);
+    };
+
     useEffect(() => {
-        //과거 저장된 Myinput(myText)를 삭제
-        localStorage.removeItem('Myinput');
 
-        //myText를 JSON방식으로 Myinput(id)로 localStorage에 저장
-        localStorage.setItem('Myinput', JSON.stringify({input: myText}));
+        localStorage.setItem('Myinput', JSON.stringify({id: diaryId.current,Title: myTitle, Text: myText}));
 
-        //로그에 함수가 작동 됨을 출력함. (편의성)
         console.log("Saved to localStorage");
     });
 
-
     return (
         <div>
-            <InputBox type="text" onChange={changeValue} value={myText}/>
+            <div>
+                <div>
+                    <InputBox type="text" onChange={changeMyTitle} value={myTitle}/></div>
+                <InputBox type="text" onChange={changeMyText} value={myText}/></div>
+            <Button onClick={increaseDiaryId}/>
         </div>
     );
 }
+
