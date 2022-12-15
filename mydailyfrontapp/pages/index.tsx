@@ -3,7 +3,7 @@ import {useEffect, useState, useRef, useReducer} from 'react';
 import {Route} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
 
-import reducer from './reducer'
+import {reducer} from './reducer';
 
 
 //Recoil {prefatching}
@@ -26,12 +26,11 @@ const InputBox = styled.input`
 
 export default function Main() {
 
-
     const [myText, setMyText] = useState('Type any Word.');
     const [myTitle, setMyTitle] = useState('Type any Title.');
 //    const [myDiaryId, setMyDiaryId] = useState(1);
 
-    const [data, dispatch] = useReducer(reducer, []);
+
 
 
     const diaryId = useRef(0);
@@ -45,16 +44,24 @@ export default function Main() {
         setMyText(e.target.value);
     };
 
-    const changeMyTitle = (e) => {
+    const changeMyTitle = (e: any) => {
         setMyTitle(e.target.value);
     };
 
+    let getMyText: any;
+
+
+
     useEffect(() => {
 
-        localStorage.setItem('Myinput', JSON.stringify({id: diaryId.current,Title: myTitle, Text: myText}));
+        localStorage.setItem('MyInput', JSON.stringify({id: diaryId.current,Title: myTitle, Text: myText}));
 
-        console.log("Saved to localStorage");
+
     });
+
+    if(typeof localStorage !== 'undefined'){
+        getMyText = JSON.parse(localStorage.getItem('MyInput') as string);
+    }
 
     return (
         <div>
@@ -63,6 +70,11 @@ export default function Main() {
                     <InputBox type="text" onChange={changeMyTitle} value={myTitle}/></div>
                 <InputBox type="text" onChange={changeMyText} value={myText}/></div>
             <Button onClick={increaseDiaryId}/>
+            <div>
+                {getMyText?.Title}</div>
+            <div>
+
+            </div>
         </div>
     );
 }

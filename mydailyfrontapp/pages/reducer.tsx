@@ -1,7 +1,7 @@
 
 
 
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
     let newState = [];
     switch(action.type){
         case "INIT" : {
@@ -13,11 +13,11 @@ const reducer = (state, action) => {
         break;
     }
     case "REMOVE" : {
-        newState = state.filter((it)=>it.id !== action.targetId);
+        newState = state.filter((it:any)=>it.id !== action.targetId);
         break;
     }
     case "EDIT" : {
-        newState = state.map((it)=>it.id === action.data.id ? {...action.data} : it);
+        newState = state.map((it:any)=>it.id === action.data.id ? {...action.data} : it);
         break;
     }
     default:
