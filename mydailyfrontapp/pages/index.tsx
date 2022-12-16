@@ -2,11 +2,13 @@ import styled from '@emotion/styled';
 import {useEffect, useState, useRef, useReducer} from 'react';
 import {Route} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
+import {Icon} from '@fluentui/react/lib/Icon';
 
-import {reducer} from './reducer';
 
 
 //Recoil {prefatching}
+
+const ChatIcon = () => <Icon iconName="CommentSolid" />;
 
 const Button = styled.button`
     width: 150px;
@@ -48,9 +50,41 @@ export default function Main() {
         setMyTitle(e.target.value);
     };
 
+    const diaryList = [
+        {
+            id: 1,
+            Title: "TestTitle1",
+            Text: "TextTest1"
+        },
+        {
+            id: 2,
+            Title: "TestTitle2",
+            Text: "TextTest2"
+        },
+        {
+            id: 3,
+            Title: "TestTitle3",
+            Text: "TextTest3"
+        },
+    ]
+
+
+
+    const list = ({diaryList}) => {
+        return (
+                <div>
+                    {list.map((it:any) => (
+                            <div key={it.id}>
+                                <div>Title : {it.Title}</div>
+                                <div>Text : {it.Text}</div>
+                            </div>
+                            ))}
+                    </div>
+        )
+    }
+
+
     let getMyText: any;
-
-
 
     useEffect(() => {
 
@@ -65,16 +99,7 @@ export default function Main() {
 
     return (
         <div>
-            <div>
-                <div>
-                    <InputBox type="text" onChange={changeMyTitle} value={myTitle}/></div>
-                <InputBox type="text" onChange={changeMyText} value={myText}/></div>
-            <Button onClick={increaseDiaryId}/>
-            <div>
-                {getMyText?.Title}</div>
-            <div>
-
-            </div>
+            
         </div>
     );
 }
